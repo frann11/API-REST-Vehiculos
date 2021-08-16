@@ -9,6 +9,6 @@ const { check, validationResult } = require('express-validator');
 //mongoose.connect(process.env.DATABASE, {useNewUrlParser:true})
 
 module.exports = () =>{
-    router.get('/', (req,res)=>res.send('funciona'))
-     return router 
+    router.get('/', (req,res)=> res.redirect('/api/vehiculos'))
+    return router 
 }
