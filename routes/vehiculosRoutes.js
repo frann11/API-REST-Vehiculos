@@ -27,12 +27,7 @@ module.exports = () =>{
     
     
     router.get('/buscar', 
-    [        
-        check("nombre", "Nombre debe contener un valor").trim().not().isEmpty(),
-        check("marca", "marca debe contener un valor").trim().not().isEmpty(),
-        check("anio", "año debe contener un valor").trim().not().isEmpty().isInt(),
-        check("descripcion").trim().escape(),
-    ],
+
     (req, res) => {
         try {
             validationResult(req).throw();

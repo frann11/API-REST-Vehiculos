@@ -53,9 +53,22 @@ exports.buscarVehiculo = async (req,res) =>{
     try {
     const querys = {}
     req.query.nombre ? querys['nombre'] = (req.query.nombre) : ''
-    req.query.anio ?  querys['anio'] = parseInt(req.query.anio) : ''
-    (req.query.vendido == 'true' || req.query.vendido == 'false') ? querys['vendido'] = req.query.vendido : ''
-      
+    if (req.query.anio.length){
+      if (!Number.isInteger(req.query.anio)){
+        throw(res.status(400).json({error:'año debe ser un numero valido'}))
+      }
+    } else {
+      querys['anio'] = parseInt(req.query.anio)
+    }
+  
+    if(req.query.vendido.length){
+      if (req.query.vendido.toLowerCase() != 'true' && req.query.vendido.toLowerCase() != 'false'){
+        throw(res.status(400).json({error:'vendido debe ser true o false'}))
+      }else{
+        querys['vendido']= req.querys.vendido
+      }
+        
+    }   
     if (Object.keys(querys).length === 0){
       throw(res.status(400).json({error:'debe ingresar un query valido'}))
     }
@@ -66,10 +79,11 @@ exports.buscarVehiculo = async (req,res) =>{
     }
     res.json(vehiculo)
 
-  })} catch(err){
-    res.status(400).json({'errors':[{'msg':error.message}]});
+  })
+} catch(err){
+    res.status(400).json({'errors':[{'msg':err.message}]});
   }
-  }
+}
 
 exports.borrarVehiculo = async (req,res,next) => {
 
@@ -107,7 +121,7 @@ exports.actualizarVehiculo = async (req,res,next) => {
       await Vehiculos.findByIdAndUpdate(id, valores, {new: true}).then(auto => {
           res.json('actualizado correctamente')
       })} catch (err){
-        res.status(400).json({'errors':[{'msg':error.message}]});
+        res.status(400).json({'errors':[{'msg':err.message}]})
       }
     }
 
@@ -133,7 +147,7 @@ exports.actualizar = async (req,res,next) => {
         res.send('actualizado correctamente')
         })}
       catch (err){
-        res.status(400).json(err.name + ': '+err.message);
+        res.status(400).json({'errors':[{'msg':err.message}]})
       }
     }
 
