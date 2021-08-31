@@ -20,6 +20,7 @@ const vehiculosSchema = new mongoose.Schema({
     descripcion:{
         type: String,
         trim:true,
+        default: 'nok'
     },
     vendido:{
         type:Boolean,

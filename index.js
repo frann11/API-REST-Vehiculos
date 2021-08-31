@@ -3,10 +3,17 @@ const routes= require('./routes')
 const vehiculosRoutes = require('./routes/vehiculosRoutes')
 const mongoose=require('mongoose')
 var bodyParser  = require('body-parser');
+const cors=require("cors");
 require('./config/db')
 //const MongoStore=require('connect-mongo')
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
 
 const app = express();
+app.use(cors(corsOptions))
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 
